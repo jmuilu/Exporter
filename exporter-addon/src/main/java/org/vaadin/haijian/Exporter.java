@@ -16,8 +16,6 @@ import org.vaadin.haijian.filegenerator.FileBuilder;
 public abstract class Exporter extends Button implements StreamSource {
     protected FileBuilder fileBuilder;
     private FileDownloader fileDownloader;
-    private Locale locale;
-    private String dateFormatString;
     protected String downloadFileName;
 
     public Exporter() {
@@ -46,7 +44,7 @@ public abstract class Exporter extends Button implements StreamSource {
         setContainerToBeExported(table.getContainerDataSource());
         setVisibleColumns(table.getVisibleColumns());
         setHeader(table.getCaption());
-        for (Object column : table.getVisibleColumns()) {
+        for (Object column: table.getVisibleColumns()) {
             String header = table.getColumnHeader(column);
             if (header != null) {
                 setColumnHeader(column, header);
@@ -54,15 +52,9 @@ public abstract class Exporter extends Button implements StreamSource {
         }
     }
 
-	public void setContainerToBeExported(Container container) {
-		fileBuilder = createFileBuilder(container);
-		if (locale != null) {
-			fileBuilder.setLocale(locale);
-		}
-		if (dateFormatString != null) {
-			fileBuilder.setDateFormat(dateFormatString);
-		}
-	}
+    private void setContainerToBeExported(Container container) {
+        fileBuilder = createFileBuilder(container);
+    }
 
     public void setVisibleColumns(Object[] visibleColumns) {
         fileBuilder.setVisibleColumns(visibleColumns);
@@ -75,22 +67,30 @@ public abstract class Exporter extends Button implements StreamSource {
     public void setHeader(String header) {
         fileBuilder.setHeader(header);
     }
-    
-    public void setLocale(Locale locale){
-    	this.locale = locale;
+
+    public void setLocale(Locale locale) {
+        fileBuilder.setLocale(locale);
     }
-    
-    public void setDateFormat(String dateFormat){
-    	this.dateFormatString = dateFormat;
+
+    public void setDateFormat(String dateFormat) {
+        fileBuilder.setDateFormat(dateFormat);
+    }
+
+    public void setSqlDateFormat(String sqlDateFormat) {
+        fileBuilder.setSqlDateFormat(sqlDateFormat);
+    }
+
+    public void setTimestampFormat(String timestampFormat) {
+        fileBuilder.setTimestampFormat(timestampFormat);
     }
 
     protected abstract FileBuilder createFileBuilder(Container container);
 
     protected abstract String getDownloadFileName();
-    
-    public void setDownloadFileName(String fileName){
-    	downloadFileName = fileName;
-    	((StreamResource)fileDownloader.getFileDownloadResource()).setFilename(getDownloadFileName());
+
+    public void setDownloadFileName(String fileName) {
+        downloadFileName = fileName;
+        ((StreamResource) fileDownloader.getFileDownloadResource()).setFilename(getDownloadFileName());
     }
 
     @Override

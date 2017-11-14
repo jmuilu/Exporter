@@ -13,3 +13,4 @@ widgetsets/
 .DS_Store
 .settings/
 /target/
+/bin/

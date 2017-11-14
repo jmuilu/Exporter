@@ -3,6 +3,7 @@ package org.vaadin.haijian.filegenerator;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 public class ExcelFileBuilder extends FileBuilder {
-    private static final String DATE_CELL_STYLE = "m/d/yy h:mm";
+    
     private Workbook workbook;
     private Sheet sheet;
     private int rowNr;
@@ -75,6 +76,12 @@ public class ExcelFileBuilder extends FileBuilder {
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
             cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
+        } else if (value instanceof Timestamp) {
+            cell.setCellValue(formatTimestamp((Timestamp) value));
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+        } else if (value instanceof java.sql.Date) {
+            cell.setCellValue(formatSqlDate((java.sql.Date) value));
+            cell.setCellType(Cell.CELL_TYPE_STRING);
         } else if (value instanceof Date) {
             cell.setCellValue(formatDate((Date) value));
             cell.setCellType(Cell.CELL_TYPE_STRING);

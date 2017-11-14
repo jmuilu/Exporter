@@ -106,3 +106,8 @@ export data to csv file
 ### Feature C
 
 export data to pdf file
+
+
+### Versions
+
+0.0.7-BC.0.7 - Support for timestamp and java.sql.Date. ISO format set to default

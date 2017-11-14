@@ -25,15 +25,14 @@ public class ExporterUI extends UI {
 		try {
 			sampleTable = createExampleTable();
 			layout.addComponent(sampleTable);
-	        ExcelExporter excelExporter = new ExcelExporter();
+	        ExcelExporter excelExporter = new ExcelExporter( sampleTable
+                    .getContainerDataSource());
 	        excelExporter.setDateFormat("yyyy-MM-dd");
 	        excelExporter.setTableToBeExported(sampleTable);
 	        excelExporter.setCaption("Export to Excel");
 	        layout.addComponent(excelExporter);
 	        CSVExporter csvExporter = new CSVExporter();
 	        csvExporter.setCaption("Export to CSV");
-	        csvExporter.setContainerToBeExported(sampleTable
-	                .getContainerDataSource());
 	        csvExporter.setVisibleColumns(sampleTable.getVisibleColumns());
 	        layout.addComponent(csvExporter);
 	        

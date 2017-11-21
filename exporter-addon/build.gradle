@@ -1,0 +1,57 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+group = 'org.vaadin.addons'
+version = '0.0.7-SNAPSHOT-bc-0.0.1'
+description = """Exporter"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+
+
+repositories {
+        
+     maven { url "http://maven.vaadin.com/vaadin-addons" }
+     maven { url "https://oss.sonatype.org/content/repositories/vaadin-snapshots/" }
+     maven { url "https://maven.java.net/content/repositories/public/" }
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'com.vaadin', name: 'vaadin-server', version:'7.7.9'
+    compile group: 'org.apache.poi', name: 'poi', version:'3.9'
+    compile 'commons-logging:commons-logging:1.1.3'
+    compile 'log4j:log4j:1.2.17'
+    testCompile group: 'junit', name: 'junit', version:'4.8.1'
+    compile(group: 'com.vaadin', name: 'vaadin-client', version:'7.7.9') {
+       /* This dependency was originally in the Maven provided scope, but the project was not of type war.
+       This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
+       Please review and delete this closure when resolved. */
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = project.property('com.bcplatforms.nexus.internal.url')
+            credentials {
+                username = project.property('com.bcplatforms.nexus.internal.username')
+                password = project.property('com.bcplatforms.nexus.internal.password')
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            groupId 'org.vaadin.addons'
+            artifactId 'exporter'
+            version '0.0.7-BC.0.7'
+            from components.java
+        }
+        
+    }
+}
